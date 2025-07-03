@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MedTrack • Doctor Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { display: flex; font-family: 'Poppins', sans-serif; min-height: 100vh; background: #f0f4f8; }
+    nav { width: 240px; background: #2c7a7b; color: #fff; }
+    nav h2 { text-align: center; padding: 1.75rem 1rem; border-bottom: 1px solid #276a6b; }
+    nav ul { list-style: none; }
+    nav li { cursor: pointer; padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem; transition: background 0.2s; }
+    nav li:hover, nav li.active { background: #1f5b5c; }
+    nav li i { width: 20px; }
+
+    main { flex: 1; padding: 1.5rem; overflow-y: auto; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .user { font-size: 1rem; color: #2c7a7b; }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .stat-box { background: #fff; border-radius: 8px; padding: 1rem; display: flex; align-items: center; gap: 0.75rem; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05); transition: transform 0.2s; }
+    .stat-box:hover { transform: translateY(-4px); }
+    .stat-box i { font-size: 1.5rem; color: #2c7a7b; }
+    .stat-box span { font-size: 1.25rem; font-weight: 600; }
+
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; }
+    .card { background: #fff; border-radius: 8px; padding: 1.25rem; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05); display: flex; flex-direction: column; gap: 0.75rem; }
+    .card h3 { display: flex; align-items: center; gap: 0.5rem; color: #2c7a7b; }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 0.5rem 0.75rem; text-align: left; border-bottom: 1px solid #e2e8f0; }
+    th { background: #e9edf2; }
+
+    .badge { padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600; display: inline-block; }
+    .confirmed { background: #e6fffa; color: #2f855a; }
+    .pending { background: #fefcbf; color: #b7791f; }
+    .missed { background: #fed7d7; color: #c53030; }
+
+    .btn { padding: 0.5rem 0.9rem; background: #2c7a7b; color: #fff; border: none; border-radius: 4px; font-weight: 500; cursor: pointer; }
+    .btn:hover { background: #235a5b; }
+
+    input, select { padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc; margin-top: 0.5rem; margin-bottom: 1rem; width: 100%; }
+
+    @media(max-width: 800px) { nav { width: 200px; } main { padding: 1rem; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <h2><i class="fa-solid fa-hospital"></i> MedTrack</h2>
+    <ul id="menu">
+      <li class="active" data-tab="dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</li>
+      <li data-tab="appointments"><i class="fa-solid fa-calendar"></i> Appointments</li>
+      <li data-tab="patients"><i class="fa-solid fa-user-injured"></i> Patients</li>
+      <li data-tab="settings"><i class="fa-solid fa-gear"></i> Settings</li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="header">
+      <h2 id="section-title">Dashboard</h2>
+      <div class="user"><i class="fa-solid fa-user-md"></i> Dr. {{ name }}</div>
+    </div>
+
+    <section id="dashboard" class="tab-content">
+      <div class="stats-grid">
+        <div class="stat-box"><i class="fa-solid fa-calendar-check"></i><div><span>{{ todays_appointments }}</span><div>Today's Appointments</div></div></div>
+        <div class="stat-box"><i class="fa-solid fa-pills"></i><div><span>{{ total_meds_due }}</span><div>Medications Due</div></div></div>
+        <div class="stat-box"><i class="fa-solid fa-bell"></i><div><span>{{ alerts }}</span><div>Alerts</div></div></div>
+        <div class="stat-box"><i class="fa-solid fa-users"></i><div><span>{{ total_patients }}</span><div>Total Patients</div></div></div>
+      </div>
+
+      <div class="card-grid">
+        <div class="card">
+          <h3><i class="fa-solid fa-calendar-days"></i> Upcoming Appointments</h3>
+          <table>
+            <thead><tr><th>Patient</th><th>Age</th><th>Department</th><th>Problem</th></tr></thead>
+            <tbody>
+              {% for appt in appointments %}
+              <tr>
+                <td>{{ appt.name }}</td>
+                <td>{{ appt.age }}</td>
+                <td>{{ appt.department }}</td>
+                <td>{{ appt.problem }}</td>
+              </tr>
+              {% else %}
+              <tr><td colspan="4">No appointments yet.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h3><i class="fa-solid fa-chart-bar"></i> Weekly Adherence</h3>
+          <canvas id="chart"></canvas>
+        </div>
+
+        <div class="card">
+          <h3><i class="fa-solid fa-bell"></i> Alerts</h3>
+          {% if alerts_list %}
+            {% for alert in alerts_list %}
+              <div class="badge missed">{{ alert }}</div>
+            {% endfor %}
+          {% else %}
+            <p>No alerts for now.</p>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    <section id="appointments" class="tab-content" style="display:none;">
+      <div class="card">
+        <h3><i class="fa-solid fa-calendar-check"></i> All Appointments</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>S.No.</th>
+              <th>Patient</th>
+              <th>Doctor</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for appt in appointments %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{ appt.name }}</td>
+              <td>{{ appt.doctor }}</td>
+              <td>{{ appt.date }}</td>
+              <td>{{ appt.time }} {% if "AM" not in appt.time and "PM" not in appt.time %}{{ "AM" if appt.time.split(":")[0]|int < 12 else "PM" }}{% endif %}</td>
+              <td>{{ appt.status }}</td>
+              <td>
+                <form method="POST" style="display:inline;">
+                  <input type="hidden" name="appointment_id" value="{{ appt.id }}">
+                  {% if appt.status == 'Pending' %}
+                    <button type="submit" name="decision" value="Accepted" class="btn">Accept</button>
+                    <button type="submit" name="decision" value="Rejected" class="btn" style="background:#c53030;">Reject</button>
+                  {% elif appt.status == 'Accepted' %}
+                    <a href="{{ url_for('prescribe', appt_id=appt.id) }}" class="btn">Prescribe</a>
+                  {% else %}
+                    <span class="badge missed">{{ appt.status }}</span>
+                  {% endif %}
+                </form>
+              </td>
+            </tr>
+            <tr id="details-{{ loop.index }}" style="display: none;">
+              <td colspan="7">
+                <div style="background-color: #f8f9fa; padding: 10px; border-radius: 5px;">
+                  <strong>Patient Name:</strong> {{ appt.name }}<br>
+                  <strong>Gender:</strong> {{ appt.gender }}<br>
+                  <strong>Age:</strong> {{ appt.age }}<br>
+                  <strong>Phone:</strong> {{ appt.phone }}<br>
+                  <strong>Email:</strong> {{ appt.email if appt.email else 'N/A' }}<br>
+                  <strong>Problem:</strong> {{ appt.problem }}<br>
+                  <strong>Department:</strong> {{ appt.department }}
+                </div>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="7">No appointments yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="patients" class="tab-content" style="display:none;">
+      <div class="card">
+        <h3><i class="fa-solid fa-users"></i> Your Patients</h3>
+        <table>
+          <thead><tr><th>Name</th><th>Age</th><th>Email</th><th>Problem</th></tr></thead>
+          <tbody>
+            {% for appt in appointments if appt.status == 'Accepted' %}
+            <tr>
+              <td>{{ appt.name }}</td>
+              <td>{{ appt.age }}</td>
+              <td>{{ appt.email }}</td>
+              <td>{{ appt.problem }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4">No patients yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="settings" class="tab-content" style="display:none;">
+      <div class="card">
+        <h3><i class="fa-solid fa-gear"></i> Settings</h3>
+        <form action="{{ url_for('update_profile') }}" method="POST">
+          <a href="{{ url_for('logout') }}" class="btn btn-danger" style="float:right; margin:10px;">Logout</a>
+
+  <label for="name">Name:</label>
+  <input type="text" name="name" value="{{ session['name'] }}" required />
+
+  <label for="email">Email:</label>
+  <input type="email" name="email" value="{{ session['email'] }}" required />
+
+  <label for="phone">Phone:</label>
+  <input type="text" name="phone" value="{{ session['phone'] }}" required />
+
+  <button type="submit">Save Changes</button>
+</form>
+
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.querySelectorAll('#menu li').forEach(li => {
+      li.addEventListener('click', () => {
+        document.querySelector('#menu li.active').classList.remove('active');
+        li.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+        document.getElementById(li.dataset.tab).style.display = 'block';
+        document.getElementById('section-title').innerText = li.innerText.trim();
+      });
+    });
+
+    const ctx = document.getElementById('chart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+          label: 'Adherence %',
+          data: [90, 85, 92, 88, 95, 80, 93],
+          backgroundColor: '#2f855a'
+        }]
+      },
+      options: {
+        scales: { y: { beginAtZero: true, max: 100 } },
+        responsive: true,
+        plugins: { legend: { display: false } }
+      }
+    });
+
+    function toggleDetails(id) {
+      const row = document.getElementById(id);
+      row.style.display = (row.style.display === 'none') ? '' : 'none';
+    }
+  </script>
+</body>
+</html>

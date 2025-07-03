@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us - MedTrack</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #ffffff);
+      padding: 2rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before, body::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      z-index: 0;
+      opacity: 0.1;
+    }
+    body::before {
+      width: 200px;
+      height: 200px;
+      background: #00796b;
+      top: 40px;
+      left: -60px;
+    }
+    body::after {
+      width: 300px;
+      height: 300px;
+      background: #004d40;
+      bottom: -120px;
+      right: -80px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      text-align: center;
+      color: #00796b;
+      margin-bottom: 1.5rem;
+    }
+    form {
+      display: grid;
+      gap: 1.2rem;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    button {
+      padding: 0.9rem;
+      background: #00796b;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #004d40;
+    }
+    .info {
+      margin-top: 2rem;
+      font-size: 0.95rem;
+      color: #333;
+    }
+    .info strong {
+      color: #00695c;
+    }
+  </style>
+</head>
+<body>
+
+  
+    <div class="container">
+
+  <!-- ✅ Display flashed messages -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div style="margin-bottom: 1rem; padding: 1rem; background-color: #e0f7fa; border-left: 6px solid #00796b; color: #004d40; font-weight: 600;">
+        {{ messages[0] }}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+    <h1>Contact MedTrack</h1>
+    <form action="{{ url_for('contactus') }}" method="POST">
+      <div>
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+      </div>
+      <div>
+        <label for="email">Your Email</label>
+        <input type="email" id="email" name="email" placeholder="example@medtrack.com" required>
+      </div>
+      <div>
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" placeholder="e.g. Medication reminder issue" required>
+      </div>
+      <div>
+        <label for="message">Your Message</label>
+        <textarea id="message" name="message" placeholder="Type your message or concern here..." required></textarea>
+      </div>
+      <button type="submit">Send Message</button>
+    </form>
+
+    <div class="info">
+      <p><strong>MedTrack Headquarters</strong></p>
+      <p>123 CloudCare Street, Hyderabad, Telangana, India</p>
+      <p>Email: support@medtrack.ai | Phone: +91-98765-43210</p>
+      <p>We’re here to support you 24/7. Expect a response within 24 hours.</p>
+    </div>
+  </div>
+
+</body>
+</html>

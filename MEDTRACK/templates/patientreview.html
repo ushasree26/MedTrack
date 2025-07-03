@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MedTrack – Patient Reviews</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+  
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f8fbfd;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background: #007acc;
+      padding: 1rem 2rem;
+      color: #fff;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2rem;
+    }
+
+    .intro {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      text-align: center;
+    }
+
+    .intro p {
+      font-size: 1.1rem;
+      color: #444;
+    }
+
+    .review-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .review-card {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+      flex: 1 1 300px;
+      max-width: 350px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .review-card img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #007acc;
+    }
+
+    .reviewer-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .reviewer-name {
+      font-weight: 600;
+      color: #007acc;
+    }
+
+    .review-text {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .stars {
+      color: #f5c518;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.9rem;
+      background: #f1f1f1;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>What Our Patients Say About MedTrack</h1>
+  </header>
+
+  <section class="intro">
+    <p>Real patients. Real stories. Read what our users have to say about how MedTrack has helped them manage their medications and improve their health.</p>
+  </section>
+
+  <section class="review-section">
+    <!-- Review 1 -->
+    <div class="review-card">
+      <div class="reviewer-info">
+        <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Patient">
+        <div>
+          <div class="reviewer-name">Priya Menon</div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+      <p class="review-text">“I used to miss my diabetes medications often, but with MedTrack’s smart reminders and daily tracker, I haven’t skipped a dose in months. Truly a life-saver!”</p>
+    </div>
+
+    <!-- Review 2 -->
+    <div class="review-card">
+      <div class="reviewer-info">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Patient">
+        <div>
+          <div class="reviewer-name">Ravi Teja</div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+      <p class="review-text">“The doctor communication through MedTrack is amazing. My doctor keeps track of my meds and progress. I feel safe and supported.”</p>
+    </div>
+
+    <!-- Review 3 -->
+    <div class="review-card">
+      <div class="reviewer-info">
+        <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Patient">
+        <div>
+          <div class="reviewer-name">Megha Joshi</div>
+          <div class="stars">★★★★☆</div>
+        </div>
+      </div>
+      <p class="review-text">“MedTrack helped me build a strict schedule after my surgery. It’s simple, intuitive, and even my 65-year-old mother uses it without issues.”</p>
+    </div>
+
+    <!-- Review 4 -->
+    <div class="review-card">
+      <div class="reviewer-info">
+        <img src="https://randomuser.me/api/portraits/men/64.jpg" alt="Patient">
+        <div>
+          <div class="reviewer-name">Aman Kumar</div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+      <p class="review-text">“With AWS SMS reminders and easy logging, MedTrack is perfect for managing chronic illnesses. My asthma medication is always on schedule now.”</p>
+    </div>
+
+    <!-- Review 5 -->
+    <div class="review-card">
+      <div class="reviewer-info">
+        <img src="https://randomuser.me/api/portraits/women/39.jpg" alt="Patient">
+        <div>
+          <div class="reviewer-name">Fatima Sheikh</div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+      <p class="review-text">“I love the privacy and control MedTrack gives. It’s secure, cloud-based, and I never worry about data leaks. It’s my health assistant.”</p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 MedTrack – Empowering Health, One Reminder at a Time.
+  </footer>
+
+</body>
+</html>

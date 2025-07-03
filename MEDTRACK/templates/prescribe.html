@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Prescribe Medication</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f0f4f8;
+      padding: 2rem;
+    }
+    .card {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #2c7a7b;
+    }
+    label {
+      font-weight: 600;
+      margin-top: 1rem;
+      display: block;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 1.5rem;
+      background: #2c7a7b;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    button:hover {
+      background: #235a5b;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: #2c7a7b;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .back-btn:hover {
+      text-decoration: underline;
+    }
+    .patient-info {
+      background-color: #e6fffa;
+      padding: 0.8rem 1rem;
+      border-radius: 5px;
+      margin-bottom: 1.2rem;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <a href="{{ url_for('doctordashboard') }}" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+    <h2><i class="fa-solid fa-prescription-bottle"></i> Prescribe Medication</h2>
+
+    <div class="patient-info">
+      <strong>Patient Name:</strong> {{ appointment.name }}<br>
+      <strong>Age:</strong> {{ appointment.age }}<br>
+      <strong>Gender:</strong> {{ appointment.gender }}<br>
+      <strong>Problem:</strong> {{ appointment.problem }}<br>
+      <strong>Department:</strong> {{ appointment.department }}
+    </div>
+
+    <form method="POST">
+      <!-- Required field -->
+      <label for="medicine">Medicine</label>
+      <input type="text" name="medicine" id="medicine" required>
+
+      <!-- Other fields -->
+      <label for="dosage">Dosage</label>
+      <input type="text" name="dosage" id="dosage" required>
+
+      <label for="days_left">Days</label>
+      <input type="number" name="days_left" id="days_left" required min="1">
+
+      <label for="time">Time</label>
+      <div style="display: flex; gap: 10px;">
+        <input type="text" name="time" id="time" placeholder="HH:MM" style="flex: 2;" required>
+        <select name="ampm" style="flex: 1;">
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </select>
+      </div>
+
+      <label for="patient">Patient</label>
+      <input type="text" name="patient" id="patient" value="{{ appointment.name }}" readonly>
+
+      <button type="submit">Save Prescription</button>
+    </form>
+  </div>
+</body>
+</html>
+
+

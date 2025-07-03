@@ -1,0 +1,237 @@
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Container */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+.site-header {
+  background-color: #fff;
+  padding: 1rem 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.logo img {
+  height: 50px;
+}
+.site-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #007acc;
+}
+
+/* Nav */
+.site-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  flex-grow: 1;
+}
+.nav-left a,
+.nav-right a {
+  margin: 0 0.5rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+.nav-left a:hover,
+.nav-right a:hover {
+  color: #007acc;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 5px;
+  font-weight: 500;
+  display: inline-block;
+  transition: background 0.3s ease;
+}
+.btn-primary {
+  background-color: #007acc;
+  color: white;
+  border: none;
+}
+.btn-primary:hover {
+  background-color: #005c99;
+}
+.btn-secondary {
+  background-color: transparent;
+  color: #007acc;
+  border: 2px solid #007acc;
+}
+.btn-secondary:hover {
+  background-color: #e6f4ff;
+}
+
+/* Hero Section */
+.hero-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3rem 0;
+  gap: 2rem;
+}
+.hero-image img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 10px;
+}
+.dashboard-cards {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.card {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  width: 300px;
+  text-align: center;
+}
+.card h2 {
+  margin-top: 1rem;
+  font-size: 1.4rem;
+  color: #007acc;
+}
+.card p {
+  font-size: 0.95rem;
+  margin: 1rem 0;
+}
+
+/* Info Section */
+.info-section {
+  background: #ffffff;
+  padding: 4rem 0;
+  text-align: center;
+}
+.info-section h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+.info-cards {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.info-card {
+  background: #f1faff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 280px;
+}
+.info-card h3 {
+  margin: 1rem 0;
+  font-size: 1.2rem;
+  color: #007acc;
+}
+
+/* Newsletter Section */
+.newsletter-section {
+  background-color: #007acc;
+  color: white;
+  padding: 3rem 0;
+  text-align: center;
+}
+.newsletter-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+.newsletter-form {
+  margin-top: 1.5rem;
+}
+.newsletter-form input[type="email"] {
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  border: none;
+  margin-right: 0.5rem;
+  width: 250px;
+  max-width: 80%;
+}
+.newsletter-form button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  border: none;
+  background-color: white;
+  color: #007acc;
+  font-weight: bold;
+  cursor: pointer;
+}
+.newsletter-form button:hover {
+  background-color: #e0f2ff;
+}
+
+/* Footer */
+.site-footer {
+  background-color: #222;
+  color: #ccc;
+  text-align: center;
+  padding: 2rem 0;
+}
+.site-footer a {
+  color: #ccc;
+  text-decoration: underline;
+  margin: 0 0.3rem;
+}
+.site-footer a:hover {
+  color: #ffffff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-flex {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .site-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
+  }
+  .dashboard-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+  .info-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+}

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MedTrack • Patient Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { display: flex; font-family: 'Poppins', sans-serif; min-height: 100vh; background: #f0f4f8; }
+    nav { width: 240px; background: #4a5568; color: #fff; }
+    nav h2 { text-align: center; padding: 1.75rem 1rem; border-bottom: 1px solid #2d3748; }
+    nav ul { list-style: none; }
+    nav li { cursor: pointer; padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem; transition: background .2s; }
+    nav li:hover, nav li.active { background: #2d3748; }
+    nav li i { width: 20px; }
+
+    main { flex: 1; padding: 1.5rem; overflow-y: auto; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .user { font-size: 1rem; color: #4a5568; }
+
+    h2, h3 { color: #2d3748; margin-bottom: 0.75rem; }
+
+    .card-grid { display: none; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+    .card-grid.active { display: grid; }
+    .card { background: #fff; border-radius: 10px; padding: 1.25rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 0.6rem .75rem; text-align: left; border-bottom: 1px solid #e2e8f0; }
+    th { background: #edf2f7; }
+
+    .btn { padding: 0.5rem 1rem; background: #4a5568; color: #fff; border: none; border-radius: 4px; font-size: 0.9rem; cursor: pointer; text-decoration: none; display: inline-block; }
+    .btn:hover { background: #2d3748; }
+
+    .badge { padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+    .confirmed { background: #c6f6d5; color: #2f855a; }
+    .pending { background: #fefcbf; color: #b7791f; }
+    .missed { background: #fed7d7; color: #c53030; }
+
+    .alert { padding: 0.75rem; background: #fed7d7; color: #c53030; border-radius: 6px; margin-bottom: 1rem; }
+    .flash { padding: 0.75rem; background: #e6fffa; color: #276749; border-radius: 6px; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <h2><i class="fa-solid fa-heart-pulse"></i> MedTrack</h2>
+    <ul id="menu">
+      <li class="active" data-tab="dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</li>
+      <li data-tab="appointments"><i class="fa-solid fa-calendar-check"></i> Appointments</li>
+      <li data-tab="medications"><i class="fa-solid fa-capsules"></i> Medications</li>
+      <li data-tab="history"><i class="fa-solid fa-notes-medical"></i> History</li>
+      <li data-tab="settings"><i class="fa-solid fa-gear"></i> Settings</li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="header">
+      <h2 id="section-title">Welcome, {{ name }}</h2>
+      <div class="user"><i class="fa-solid fa-user"></i> Email: {{ email }}</div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="flash">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% if alerts %}
+      {% for alert in alerts %}
+        <div class="alert"><i class="fa-solid fa-triangle-exclamation"></i> {{ alert }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="card-grid active">
+      <div class="card">
+        <h3><i class="fa-solid fa-calendar-day"></i> Upcoming Appointments</h3>
+        <table>
+          <thead>
+            <tr><th>S.No.</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            {% for appt in appointments %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ appt.doctor }}</td>
+                <td>{{ appt.date }}</td>
+                <td>{{ appt.time }}</td>
+                <td><span class="badge {{ appt.status|lower }}">{{ appt.status }}</span></td>
+                <td><button class="btn" onclick="toggleDetails('details-{{ loop.index }}')">View</button></td>
+              </tr>
+              <tr id="details-{{ loop.index }}" style="display:none;">
+                <td colspan="6">
+                  <strong>Problem:</strong> {{ appt.problem }}<br/>
+                  <strong>Department:</strong> {{ appt.department }}<br/>
+                  <strong>Prescription:</strong>
+                  <ul>
+                    {% for med in medications if med.appointment_id == appt.id %}
+                      <li>{{ med.medicine }} – {{ med.dosage }} – {{ med.time }}</li>
+                    {% endfor %}
+                  </ul>
+                </td>
+              </tr>
+            {% else %}
+              <tr><td colspan="6">No appointments found.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <br/>
+        <a href="{{ url_for('appointment') }}" class="btn">+ Add Appointment</a>
+        <a href="{{ url_for('doctorreview') }}" class="btn" style="margin-left: 1rem;">Explore Doctor Reviews</a>
+        <form action="{{ url_for('logout') }}" method="get" style="display:inline;">
+          <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Appointments -->
+    <div id="appointments" class="card-grid">
+      <div class="card">
+        <h3><i class="fa-solid fa-calendar-check"></i> Appointment History</h3>
+        <table>
+          <thead><tr><th>Date</th><th>Doctor</th><th>Status</th></tr></thead>
+          <tbody>
+            {% for appt in appointments %}
+              <tr>
+                <td>{{ appt.date }}</td>
+                <td>{{ appt.doctor }}</td>
+                <td><span class="badge {{ appt.status|lower }}">{{ appt.status }}</span></td>
+              </tr>
+            {% else %}
+              <tr><td colspan="3">No past appointments.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Medications -->
+    <div id="medications" class="card-grid">
+      <div class="card">
+        <h3><i class="fa-solid fa-capsules"></i> Medication Reminders</h3>
+        <form method="POST" action="{{ url_for('update_medication_status') }}">
+          <table>
+            <thead>
+              <tr><th>Medicine</th><th>Time</th><th>Status</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              {% for med in medications %}
+                <tr>
+                  <td>{{ med.medicine }}</td>
+                  <td>{{ med.time }}</td>
+                  <td><span class="badge {{ med.status|lower }}">{{ med.status }}</span></td>
+                  <td>
+                    <label><input type="radio" name="status_{{ med.id }}" value="Taken"> Taken</label>
+                    <label><input type="radio" name="status_{{ med.id }}" value="Not Yet"> Not Yet</label>
+                  </td>
+                </tr>
+              {% else %}
+                <tr><td colspan="4">No medications scheduled.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <br/>
+          <button type="submit" class="btn">Save Status</button>
+        </form>
+        <br/>
+        <a href="{{ url_for('addmedication') }}" class="btn">+ Add Medication</a>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div id="history" class="card-grid">
+      <div class="card">
+        <h3><i class="fa-solid fa-file-medical"></i> Medical History</h3>
+        <table>
+          <thead><tr><th>Medicine</th><th>Dosage</th><th>Time</th></tr></thead>
+          <tbody>
+            {% for med in medications %}
+              <tr>
+                <td>{{ med.medicine }}</td>
+                <td>{{ med.dosage }}</td>
+                <td>{{ med.time }}</td>
+              </tr>
+            {% else %}
+              <tr><td colspan="3">No history yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div id="settings" class="card-grid">
+      <div class="card">
+        <h3><i class="fa-solid fa-gear"></i> Settings</h3>
+        <form method="POST" action="/update-profile">
+          <label>Name</label><input type="text" name="name" value="{{ name }}" class="btn" />
+          <label>Email</label><input type="email" name="email" value="{{ email }}" class="btn" />
+          <label>Phone</label><input type="tel" name="phone" value="{{ phone }}" class="btn" />
+          <br/><br/>
+          <button type="submit" class="btn">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const menuItems = document.querySelectorAll('#menu li');
+    const tabContents = document.querySelectorAll('.card-grid');
+    const title = document.getElementById('section-title');
+
+    menuItems.forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelector('#menu li.active').classList.remove('active');
+        item.classList.add('active');
+        tabContents.forEach(tab => tab.classList.remove('active'));
+        document.getElementById(item.dataset.tab).classList.add('active');
+        title.textContent = item.textContent.trim();
+      });
+    });
+
+    function toggleDetails(id) {
+      const row = document.getElementById(id);
+      row.style.display = row.style.display === 'none' ? '' : 'none';
+    }
+  </script>
+</body>
+</html>

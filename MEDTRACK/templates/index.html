@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MEDTRACK – Cloud Medication Tracker</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-flex">
+      <div class="logo-title">
+        <a href="#" class="logo">
+          <img src="https://i.ibb.co/Vpg3fYyh/a-modern-lettermark-logo-design-for-medt-n-Qg-OKg1-YSE2b-NXGv-Xo5og-Q-V-b-Pysh-LQsyq-Zvqc-Af-W6n-A.jpg" alt="MEDTRACK Logo" />
+        </a>
+        <h1 class="site-title">MEDTRACK</h1>
+      </div>
+      <nav class="site-nav">
+        <div class="nav-left">
+          <a href="{{ url_for('contactus') }}">Contact Us</a>
+          <a href="{{ url_for('aboutus') }}">About Us</a>
+          <a href="{{ url_for('appointment') }}"class="btn btn-primary">Appointment</a>
+        </div>
+        <div class="nav-right">
+          <a href="{{ url_for('login') }}" class="btn btn-secondary">Login</a>
+          <a href="{{ url_for('signup') }}" class="btn btn-primary">Sign Up</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero / Dashboard Cards -->
+  <main>
+    <section class="hero-section container" id="start">
+      <div class="hero-image">
+        <img src="https://i.ibb.co/PG6xTbXP/a-calming-lifestyle-advertisement-for-me-b1-Ro-DNp9-QTy-Ka5s-TLVrb6w-o8r9-Fe6j-Tq-Kbn-V3-OOC4-Jyg.jpg" alt="Medication Tracking Illustration" />
+      </div>
+      <div class="dashboard-cards">
+        <!-- Doctor Card -->
+        <div class="card doctor-card">
+          <i class="fa-solid fa-user-md fa-3x"></i>
+          <h2>Doctor Dashboard</h2>
+          <p>Meet our elite team of doctors—globally recognized for their medical excellence, patient-first care, and groundbreaking contributions to modern healthcare.</p>
+          <a href="{{ url_for('doctorreview') }}" class="btn btn-secondary">Explore Dashboard</a>
+
+
+        </div>
+        <!-- Patient Card -->
+        <div class="card patient-card">
+          <i class="fa-solid fa-pills fa-3x"></i>
+          <h2>Patient Dashboard</h2>
+          <p>Life-saving reminders, stress-free scheduling, and peace of mind—see how MedTrack is making healthcare simple for people like you.</p>
+          <a href="{{ url_for('patientreview') }}" class="btn btn-secondary">Explore Dashboard</a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Additional Info Section -->
+    <section class="info-section container">
+      <h2>Why Choose MEDTRACK?</h2>
+      <div class="info-cards">
+        <div class="info-card">
+          <i class="fa-solid fa-shield-halved fa-2x"></i>
+          <h3>Cloud-Powered Security</h3>
+          <p>HIPAA-compliant data stored on AWS with top-level access control and monitoring.</p>
+        </div>
+        <div class="info-card">
+          <i class="fa-solid fa-bell fa-2x"></i>
+          <h3>Smart Reminders</h3>
+          <p>Get automatic medication reminders via SMS, email, or app push notifications.</p>
+        </div>
+        <div class="info-card">
+          <i class="fa-solid fa-user-group fa-2x"></i>
+          <h3>Doctor & Family Sharing</h3>
+          <p>Share your schedule with caregivers or physicians with consent-based access.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter / CTA -->
+    <section class="newsletter-section">
+      <div class="container">
+        <h2>Stay in the Loop</h2>
+        <p>Subscribe for latest updates, features, and health tips from MedTrack.</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Enter your email" required />
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" id="contact">
+    <div class="container">
+      <p>&copy; 2025 MEDTRACK. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>

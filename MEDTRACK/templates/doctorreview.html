@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meet Our Doctors – MedTrack</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f7fafd;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(120deg, #007acc, #0e9aa7);
+      color: #fff;
+      padding: 2rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    .intro {
+      text-align: center;
+      margin: 2rem auto;
+      max-width: 800px;
+      font-size: 1.2rem;
+    }
+    .team {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+    }
+    .card img {
+      width: 100%;
+      height: 375px;
+      object-fit: cover;
+    }
+    .card-content {
+      padding: 1.5rem;
+    }
+    .card-content h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #007acc;
+    }
+    .card-content p {
+      margin: 0.5rem 0;
+    }
+    .badges {
+      margin-top: 1rem;
+    }
+    .badge {
+      display: inline-block;
+      background: #0e9aa7;
+      color: #fff;
+      padding: 0.3rem 0.75rem;
+      margin: 0.2rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+    }
+    footer {
+      background: #0e9aa7;
+      color: #fff;
+      text-align: center;
+      padding: 1.5rem 0;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Our Expert Medical Team</h1>
+    <p>Certified. Compassionate. Committed to Your Health.</p>
+  </header>
+
+  <section class="intro">
+    <p>At MedTrack, we take pride in the team of elite professionals who bring passion and excellence to patient care. Each of our doctors is not only an expert in their field but also dedicated to building a better health experience. Discover the brilliant minds behind MedTrack and see why thousands trust us with their well-being.</p>
+  </section>
+
+  <section class="team">
+    <div class="card">
+      <img src="https://i.ibb.co/tPn1sxx2/sarah.jpg" alt="Dr. Sarah Patel">
+      <div class="card-content">
+        <h3>Dr. Sarah Patel, MD</h3>
+        <p>Cardiologist • 18 Years Experience</p>
+        <p>Awarded "Best Heart Surgeon 2022" by Global Med Council.</p>
+        <div class="badges">
+          <span class="badge">Harvard Med School</span>
+          <span class="badge">FACC</span>
+          <span class="badge">AIIMS Fellowship</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.ibb.co/pvF5WmkY/marcus.jpg" alt="Dr. Marcus Lee">
+      <div class="card-content">
+        <h3>Dr. Marcus Lee, MS</h3>
+        <p>Neurologist • 15 Years Experience</p>
+        <p>Renowned for breakthrough epilepsy treatment using AI diagnostics.</p>
+        <div class="badges">
+          <span class="badge">Oxford University</span>
+          <span class="badge">NMC Gold Medalist</span>
+          <span class="badge">NeuroTech Innovator</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.ibb.co/BK4sgxyY/priyamehra.jpg" alt="Dr. Priya Mehra">
+      <div class="card-content">
+        <h3>Dr. Priya Mehra, MBBS, DGO</h3>
+        <p>Gynecologist • 20+ Years Experience</p>
+        <p>Compassionate women’s health advocate with 10,000+ successful deliveries.</p>
+        <div class="badges">
+          <span class="badge">King’s College London</span>
+          <span class="badge">Gold Star Women's Health</span>
+          <span class="badge">UN Health Contributor</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.ibb.co/vKYRPpV/arjundas.jpg" alt="Dr. Arjun Das">
+      <div class="card-content">
+        <h3>Dr. Arjun Das, MD</h3>
+        <p>Diabetologist • 12 Years Experience</p>
+        <p>Known for personalized diabetic care and reversing lifestyle diseases.</p>
+        <div class="badges">
+          <span class="badge">Johns Hopkins University</span>
+          <span class="badge">India MedStar Award</span>
+          <span class="badge">WHO Collaborator</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 MedTrack. Your health, our priority. Trusted by thousands worldwide.</p>
+  </footer>
+</body>
+</html>

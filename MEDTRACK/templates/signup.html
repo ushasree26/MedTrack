@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MedTrack – Cloud-based Medication Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    * { box-sizing: border-box; padding: 0; margin: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f9fbfd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      display: flex;
+      background: #fff;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      border-radius: 12px;
+      overflow: hidden;
+      max-width: 1100px;
+      width: 100%;
+    }
+    .left {
+      flex: 1;
+      background: #f1f6fb;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center; 
+    }
+    .left h1 {
+      font-size: 2rem;
+      color: #007acc;
+      margin-bottom: 1rem;
+    }
+    .left p {
+      font-size: 1rem;
+      color: #333;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .left ul {
+      margin-left: 1.2rem;
+      color: #444;
+    }
+    .left ul li {
+      margin-bottom: 0.6rem;
+    }
+
+    .right {
+      flex: 1;
+      padding: 2.5rem;
+    }
+    .right h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+    }
+    input, select {
+      padding: 0.7rem;
+      margin-bottom: 1.2rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    .btn {
+      padding: 0.75rem;
+      background: #007acc;
+      color: white;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #005b9f;
+    }
+    .footer {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+    .footer a {
+      color: #007acc;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+        margin: 2rem;
+      }
+      .left, .right {
+        width: 100%;
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <style>
+  .flash-success {
+    color: green;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .flash-error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+  }
+</style>
+
+<!-- Inside body -->
+<div class="container">
+
+  <!-- ✅ Display flashed messages -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div style="margin-bottom: 1rem; padding: 1rem; background-color: #e0f7fa; border-left: 6px solid #00796b; color: #004d40; font-weight: 600;">
+        {{ messages[0] }}
+      </div>
+    {% endif %}
+  {% endwith %}
+    <div class="left">
+      <h1>Welcome to MedTrack</h1>
+      <p><strong>Problem:</strong> Patients, especially those on multiple medications, often struggle with adherence, leading to missed doses or incorrect timings, impacting health outcomes.</p>
+      <p><strong>Solution:</strong> MedTrack is a secure, cloud-based platform that helps patients track medication schedules, receive reminders, and manage prescription details.</p>
+      <ul>
+        <li><i class="fa-solid fa-user-lock"></i> User login & registration</li>
+        <li><i class="fa-solid fa-capsules"></i> Medication entry & dosage tracking</li>
+        <li><i class="fa-solid fa-bell"></i> Custom reminders via SMS/Email (AWS SNS)</li>
+        <li><i class="fa-solid fa-database"></i> Secure storage using AWS DynamoDB</li>
+        <li><i class="fa-solid fa-cloud"></i> Deployed via AWS EC2 & IAM secured</li>
+      </ul>
+    </div>
+
+    <!-- Right Section: Sign Up Form -->
+    <div class="right">
+      <h2><i class="fa-solid fa-user-plus"></i> Sign Up</h2>
+      <form action="{{ url_for('signup') }}" method="POST">
+
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required />
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number" />
+
+        <label for="role">Role</label>
+        <select id="role" name="role" required>
+          <option value="">Select</option>
+          <option value="patient">Patient</option>
+          <option value="doctor">Doctor</option>
+        </select>
+
+        <label for="reminder">Reminder Type</label>
+        <select id="reminder" name="reminder" required>
+          <option value="email">Email</option>
+          <option value="sms">SMS</option>
+          <option value="both">Both</option>
+          <option value="both">None(doctors)</option>
+        </select>
+
+        <button type="submit" class="btn">Create Account</button>
+      </form>
+      <div class="footer">
+        Already registered? <a href="{{ url_for('login') }}">Login here</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

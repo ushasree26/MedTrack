@@ -1,0 +1,9 @@
+Flask==2.3.3
+boto3==1.34.79
+botocore==1.34.79
+Werkzeug==2.3.7
+Jinja2==3.1.3
+gunicorn==21.2.0
+smtplib3==0.5.1
+email-validator==2.1.0.post1
+python-dotenv==1.0.1

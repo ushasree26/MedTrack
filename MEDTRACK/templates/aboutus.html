@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us - MedTrack</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: linear-gradient(to right, #e0f7fa, #ffffff);
+      padding: 2rem;
+      position: relative;
+    }
+    body::before, body::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.1;
+      z-index: 0;
+    }
+    body::before {
+      width: 200px;
+      height: 200px;
+      background: #00796b;
+      top: 40px;
+      left: -60px;
+    }
+    body::after {
+      width: 300px;
+      height: 300px;
+      background: #004d40;
+      bottom: -120px;
+      right: -80px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      text-align: center;
+      color: #00796b;
+      margin-bottom: 1rem;
+    }
+    p {
+      line-height: 1.7;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+    .highlight {
+      color: #004d40;
+      font-weight: 600;
+    }
+    .team-section {
+      margin-top: 2rem;
+    }
+    .team-section h2 {
+      text-align: center;
+      color: #00796b;
+      margin-bottom: 1rem;
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: #e0f2f1;
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .card h3 {
+      margin: 0.5rem 0;
+      color: #00695c;
+    }
+    .card p {
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>About MedTrack</h1>
+    <p><span class="highlight">MedTrack</span> is a secure, cloud-based platform designed to help patients manage their medications efficiently. We empower users to schedule and track medication reminders, record dosage, and consult their assigned doctors — all in one place.</p>
+    
+    <p>With growing complexity in healthcare and increasing reliance on multiple prescriptions, our goal is to improve <span class="highlight">medication adherence</span>, reduce health risks, and ensure seamless collaboration between patients and medical professionals.</p>
+    
+    <p>We are powered by leading AWS technologies such as <span class="highlight">EC2, DynamoDB, SNS, and IAM</span>, and we ensure the highest level of <span class="highlight">data privacy and user experience</span>.</p>
+
+    <div class="team-section">
+      <h2>Our Team</h2>
+      <div class="team-grid">
+        <div class="card">
+          <h3>Usha Sree</h3>
+          <p>Founder & AI Engineer</p>
+        </div>
+        <div class="card">
+          <h3>Dr. Y Chandana</h3>
+          <p>Chief Medical Advisor</p>
+        </div>
+        <div class="card">
+          <h3>Venkat</h3>
+          <p>Lead Backend Developer</p>
+        </div>
+        <div class="card">
+          <h3>Viju</h3>
+          <p>UX & Frontend Designer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
