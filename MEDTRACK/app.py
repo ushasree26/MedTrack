@@ -19,14 +19,13 @@ if USE_DYNAMODB:
     appointments_table = dynamodb.Table('Appointments')
     prescriptions_table = dynamodb.Table('Prescriptions')
     medications_table = dynamodb.Table('Medications')
-
-# ---------- Email and SMS Reminder Functions ----------
+    
 def send_local_email(to_email, subject, body):
     try:
         smtp_server = 'smtp.gmail.com'
         smtp_port = 587
         sender_email = os.getenv('SENDER_EMAIL')
-        sender_password = os.getenv('SENDER_PASSWORD')    # Use Gmail App Password (not regular password)
+        sender_password = os.getenv('SENDER_PASSWORD')    
 
         msg = MIMEText(body)
         msg['Subject'] = subject
@@ -42,12 +41,8 @@ def send_local_email(to_email, subject, body):
         print(f"Email sent to {to_email}")
     except Exception as e:
         print(f"Email sending failed: {e}")
-
-AWS_REGION = "ap-south-1"
 SNS_TOPIC_ARN = "arn:aws:sns:ap-south-1:123456789012:MedTrackNotifications"
-
 sns = boto3.client('sns', region_name=AWS_REGION)
-
 def send_sns_email(subject, message):
     try:
         sns.publish(
@@ -62,8 +57,6 @@ def send_sns_email(subject, message):
 def send_local_sms(phone, message):
     print(f"[SIMULATED SMS to {phone}]: {message}")
 
-
-# Local Storage
 db = {
     'users': {
         "dr.john@example.com": {
@@ -77,8 +70,6 @@ db = {
     'prescriptions': [],
     'medications': []
 }
-
-# Helper Functions
 def load_users():
     if USE_DYNAMODB:
         response = users_table.scan()
@@ -183,12 +174,10 @@ def send_notifications():
             message = f"Dear {med['patient']},\n\nThis is your MedTrack reminder to take {med['medicine']} at {med['time']} today.\n\nStay healthy!"
             send_sns_email(subject, message)
 
-            med['status'] = 'Sent'  # Prevent duplicate notifications
+            med['status'] = 'Sent'  
             reminders_sent += 1
 
     return f"{reminders_sent} reminder(s) sent."
-
-
 @app.route('/doctordashboard', methods=['GET', 'POST'])
 def doctordashboard():
     if session.get('role') != 'doctor':
@@ -233,8 +222,6 @@ def update_profile():
 
     email = session['email']
     role = session['role']
-
-    # Support for local or DynamoDB users
     users = load_users()
 
     if email not in users:
@@ -286,8 +273,7 @@ def patientdashboard():
     email = session.get('email')
 
     user_appointments = [appt for appt in db['appointments'] if appt['patient'] == name]
-
-    # Convert date + time to datetime object and check if it's passed
+    
     now = datetime.now()
     for appt in user_appointments:
         appt_time_str = f"{appt['date']} {appt['time']}"
@@ -372,15 +358,13 @@ def logout():
     session.clear()
     flash("You have been logged out.", "info")
     return redirect(url_for('login'))
-
-
+    
 def load_prescriptions():
     if USE_DYNAMODB:
         response = prescriptions_table.scan()
         return response.get('Items', [])
     else:
         return db['prescriptions']
-
-
+        
 if __name__ == '__main__':
     app.run(debug=True)
