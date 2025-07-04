@@ -8,7 +8,8 @@ import smtplib
 from email.mime.text import MIMEText
 
 app = Flask(__name__)
-app.secret_key = 'sreeusha790'
+app.secret_key = 'oW8d$hM!Zq7#Kf3s^N@vLp2xXsRtJwXe'
+
 
 USE_DYNAMODB = True  # Set to True when deploying on AWS
 AWS_REGION = 'us-east-1'
