@@ -15,7 +15,7 @@ AWS_REGION = 'us-east-1'
 
 if USE_DYNAMODB:
     dynamodb = boto3.resource('dynamodb', region_name=AWS_REGION)
-    Users = dynamodb.Table('Users')
+    users_table = dynamodb.Table('Users')
     appointments_table = dynamodb.Table('Appointments')
     prescriptions_table = dynamodb.Table('Prescriptions')
     medications_table = dynamodb.Table('Medications')
