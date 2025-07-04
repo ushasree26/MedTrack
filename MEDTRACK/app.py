@@ -42,7 +42,7 @@ def send_local_email(to_email, subject, body):
     except Exception as e:
         print(f"Email sending failed: {e}")
 SNS_TOPIC_ARN = "arn:aws:sns:ap-south-1:123456789012:MedTrackNotifications"
-sns = boto3.client('sns', region_name=AWS_REGION)
+sns = boto3.client('sns', region_name='us-east-1')
 def send_sns_email(subject, message):
     try:
         sns.publish(
@@ -117,12 +117,28 @@ def patientreview():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        data = {k: request.form[k] for k in ['name', 'email', 'password', 'phone', 'role', 'reminder']}
+        data = {
+            'name': request.form['name'],
+            'email': request.form['email'],
+            'password': request.form['password'],
+            'phone': request.form['phone'],
+            'role': request.form['role'],
+            'reminder': request.form['reminder']
+        }
+
         users = load_users()
         if data['email'] in users:
             flash("Email already exists", "error")
             return redirect(url_for('signup'))
-        db['users'][data['email']] = data
+            
+        if USE_DYNAMODB:
+            try:
+                users_table.put_item(Item=data)
+            except Exception as e:
+                flash(f"Failed to register user: {e}", "error")
+                return redirect(url_for('signup'))
+        else:
+            db['users'][data['email']] = data
 
         subject = "🎉 Welcome to MedTrack!"
         message = f"Hi {data['name']},\n\nYou have successfully registered in the MedTrack app.\n\nStay healthy!"
@@ -130,16 +146,33 @@ def signup():
 
         flash("Signup successful! Now login.", "success")
         return redirect(url_for('login'))
+
     return render_template('signup.html')
+
+
+from werkzeug.security import check_password_hash
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email, password = request.form['email'], request.form['password']
-        user = db['users'].get(email)
-        if user and user['password'] == password:
-            session.update({"email": email, "role": user['role'], "name": user['name'], "phone": user.get('phone', '')})
-            return redirect(url_for(f"{user['role']}dashboard"))
+        email = request.form['email']
+        password = request.form['password']
+
+        users = load_users()
+        user = users.get(email)
+
+        if user:
+            # Handle hashed or plain password
+            stored_password = user['password']
+            if (stored_password == password) or (check_password_hash(stored_password, password)):
+                session.update({
+                    "email": email,
+                    "role": user['role'],
+                    "name": user['name'],
+                    "phone": user.get('phone', '')
+                })
+                return redirect(url_for(f"{user['role']}dashboard"))
+        
         flash("Invalid credentials", "error")
     return render_template('login.html')
 
