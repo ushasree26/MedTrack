@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.secret_key = 'sreeusha790'
 
 USE_DYNAMODB = True  # Set to True when deploying on AWS
-AWS_REGION = 'us-east-1a'
+AWS_REGION = 'us-east-1'
 
 if USE_DYNAMODB:
     dynamodb = boto3.resource('dynamodb', region_name=AWS_REGION)
